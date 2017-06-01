@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html ng-app="app">
+    <head>
+        <meta charset="UTF-8">
+
+        <link rel="stylesheet" href="../styles/bootstrap.min.css">
+        <link rel="stylesheet" href="../styles/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../styles/js-image-slider.css"/>
+        <link rel="stylesheet" href="../styles/main.css">
+
+        <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+        <script src="../scripts/bootstrap.min.js"></script>
+        <script src="../scripts/angular.min.js"></script>
+        <script src="../scripts/js-image-slider.js"></script>
+        <script src="../scripts/main.js"></script>
+        <script src="../scripts/aboutService.js"></script>
+        <script src="../scripts/articlesService.js"></script>
+        <script src="../scripts/contactService.js"></script>
+        <script src="../scripts/newsService.js"></script>
+        <script src="../scripts/servicesService.js"></script>
+        <script src="../scripts/teamService.js"></script>
+    </head>
+    <body ng-controller="MainController">
+        <header class="col-md-12 header-background">
+            <div class="header-content">
+                <div class="col-md-12 bar-yellow top-bar"></div>
+                <div class="col-md-12 bar-gray-1">
+                    <div class="col-md-6 col-md-offset-5">
+                        <div class="icon-buttons-bar">
+                            <img src="../images/iconos_cabeza.png"/>
+                            <div>
+                                <div class="print-button" ng-click="print()"></div>
+                                <div class="home-button" ng-click="updateContent(menu.about)"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 bar-white">
+                    <div class="header-elements-container">
+                        <div class="col-md-5 logo-container">
+                            <img class="logo" src="../images/logo.png"/>
+                        </div>
+                        <nav class="col-md-6 col-md-offset-1 nav-container">
+                            <div ng-init="drawCanvas()" class="nav-bar">
+                                <div class="nav-item"
+                                     ng-class="{true:'active', 'false':''}[menu.about.active]"
+                                     ng-click="updateContent(menu.about)">
+                                    <canvas class="top-triangle" width="96" height="10"></canvas>
+                                    <a href="">ABOUT US</a>
+                                </div>
+                                <div class="nav-item"
+                                     ng-class="{true:'active', 'false':''}[menu.team.active]"
+                                     ng-click="updateContent(menu.team)">
+                                    <canvas class="top-triangle" width="96" height="10"></canvas>
+                                    <a href="#">TEAM</a>
+                                </div>
+                                <div class="nav-item"
+                                     ng-class="{true:'active', 'false':''}[menu.services.active]"
+                                     ng-click="updateContent(menu.services)">
+                                    <canvas class="top-triangle" width="96" height="10"></canvas>
+                                    <a href="#">SERVICES</a>
+                                </div>
+                                <div class="nav-item"
+                                     ng-class="{true:'active', 'false':''}[menu.news.active]"
+                                     ng-click="updateContent(menu.news)">
+                                    <canvas class="top-triangle" width="96" height="10"></canvas>
+                                    <a href="#">NEWS</a>
+                                </div>
+                                <div class="nav-item"
+                                     ng-class="{true:'active', 'false':''}[menu.contact.active]"
+                                     ng-click="updateContent(menu.contact)">
+                                    <canvas class="top-triangle" width="96" height="10"></canvas>
+                                    <a href="#">CONTACT</a>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-md-12 bar-red"></div>
+                <div class="col-md-12 bar-gray-2"></div>
+                <div class="col-md-12 bar-yellow bar-bottom"></div>
+            </div>
+        </header>
+        <section class="col-md-12 content-container">
+            <div class="col-md-11 content-panel">
+                <div class="">
+                    <div class="breadcrumbs">
+                        {{breadcrumb}}
+                    </div>
+                    <div class="template-container"
+                         ng-class="{true:'active', 'false':''}[menu.about.active]"
+                         ng-include="menu.about.template"></div>
+                    <div class="template-container"
+                         ng-class="{true:'active', 'false':''}[menu.team.active]"
+                         ng-include="menu.team.template"></div>
+                    <div class="template-container"
+                         ng-class="{true:'active', 'false':''}[menu.general.active]"
+                         ng-include="menu.general.template"></div>
+                </div>
+            </div>
+        </section>
+        <div class="col-md-12 footer-container">
+            <div class="panel-body articles-bar col-md-offset-1">
+                <div class="scroll-nav-right">
+                </div>
+                <div class="articles-scroll">
+                    <div class="articles-container col-md-12">
+                            <aside class="col-d-3"
+                                   ng-repeat="item in footerArticles">
+                                <div>
+                                    <a href="#" ng-click="updateContent('articles',item.id)" >{{ item.title }}</a>
+                                </div>
+                            </aside>
+                    </div>
+                </div>
+                <div class="scroll-nav-left">
+                </div>
+            </div>
+            <footer class="col-md-11 footer-bar bar-yellow">
+                <div >
+                    <a href="#" ng-click="updateContent(menu.about)">Inicio</a>
+                    <a href="#">Mapa Web</a>
+                    <a href="#">Correo</a>
+                    <span class="right">Copyright Estudio Jurídico 2015</span>
+                </div>
+            </footer>
+        </div>
+
+        <script type="text/ng-template" id="about.html">
+            <div class="col-md-12">
+            <div id="sliderFrame" class="col-md-8 slider-frame">
+                <div id="slider">
+                    <img ng-repeat="item in sliderImages" ng-src="{{item.src}}" alt="{{item.alt}}" />
+                </div>
+            </div>
+            <div class="contact-form col-md-3">
+                <div class="header">
+                    Send request
+                </div>
+                <div class="content">
+                    <form action="?" method="post">
+                        <input type="text" placeholder="Name" name="name" id="name"/>
+                        <input type="text" placeholder="E-mail" name="email" id ="email"/>
+                        <textarea placeholder="Write any question" name="question" id="question"></textarea>
+                        <input class="form-button" type="submit" value="Send" ng-click="showMessage()"/>
+                    </form>
+                </div>
+            </div>
+            <div>
+        </script>
+
+        <script type="text/ng-template" id="team.html">
+            <div class="section-container col-md-12">
+                <div class="section col-md-12"
+                     ng-repeat="item in team">
+                    <div class="image-container col-md-1">
+                        <div class="img-border">
+                            <img ng-src="{{item.src}}"/>
+                        </div>
+                    </div>
+                    <div class="article-img-content col-md-1">
+                        <h4>{{item.title}}</h4>
+                        <p ng-bind-html="renderHtml(item.content)"></p>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="general.html">
+            <div class="section-container col-md-12">
+                <div class="section col-md-12"
+                     ng-repeat="item in general">
+                    <div class="article-content col-md-11">
+                        <h4>{{item.title}}</h4>
+                        <p ng-bind-html="renderHtml(item.content)"></p>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <script>
+        $('.scroll-nav-left').hover(function(){
+            $('.articles-scroll').animate({ scrollLeft: $('.articles-scroll')[0].scrollWidth }, 200);
+        });
+        $('.scroll-nav-right').hover(function(){
+            $('.articles-scroll').animate({ scrollLeft: 0 }, 200);
+        });
+        </script>
+    </body>
+</html>
